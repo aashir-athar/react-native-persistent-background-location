@@ -1,0 +1,80 @@
+name: Bug report
+description: Report a problem with react-native-persistent-background-location
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a report. **Never paste real location coordinates, auth tokens, or `syncUrl` credentials** — redact them first.
+
+        Background-location bugs are almost always about *lifecycle* (what happens when the app is killed, swiped, or after a reboot), so please be precise about the scenario.
+  - type: checkboxes
+    attributes:
+      label: Preflight
+      options:
+        - label: I'm on the New Architecture (this package does not support the old bridge).
+          required: true
+        - label: I granted "Always"/background location (and, on Android 13+, the notification permission).
+          required: true
+        - label: I searched existing issues.
+          required: true
+  - type: dropdown
+    attributes:
+      label: Platform
+      options: [Android, iOS, Both]
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: react-native-persistent-background-location version
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: React Native version
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: react-native-nitro-modules version
+  - type: input
+    attributes:
+      label: Device + OS version + OEM skin
+      description: e.g. Pixel 8 / Android 15 (stock), Samsung S23 / One UI 6, iPhone 14 / iOS 18. OEM battery managers (MIUI/HyperOS/EMUI/ColorOS) matter a lot.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: When does it happen?
+      description: The lifecycle state where tracking misbehaves.
+      options:
+        - App in foreground
+        - App backgrounded (still in recents)
+        - App killed / swiped away from recents
+        - After device reboot (restartOnBoot)
+        - During offline buffering / sync
+        - Other (describe below)
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Include the failing API call (e.g. `start()`), any `onError` `code`, and the `getStatus()` snapshot if you have it.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Minimal steps or a snippet (with secrets and real coordinates removed). Did you walk/drive ~500 m+ to trigger background fixes?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Logs
+      description: "Run `start({ debug: true })`, then paste Xcode console / `adb logcat` output. Redact coordinates, tokens, and `syncUrl`."
+      render: shell

@@ -1,0 +1,72 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Location. ACCESS_BACKGROUND_LOCATION and ACTIVITY_RECOGNITION are added by
+         the config plugin (they require an explicit opt-in), as in the Expo version. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Foreground service (location-typed) — the core survival mechanism. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+    <!-- The persistent notification on Android 13+. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Re-arm tracking after a reboot. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Offline HTTP sync of buffered fixes. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+
+        <!-- The location foreground service. exported=false (no external entry
+             point), stopWithTask=false so it survives swipe-to-kill, and the
+             location foregroundServiceType required on API 29+. -->
+        <service
+            android:name="com.margelo.nitro.persistentbackgroundlocation.BackgroundLocationService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location"
+            android:stopWithTask="false" />
+
+        <!-- Re-arms tracking after reboot / package replacement. -->
+        <receiver
+            android:name="com.margelo.nitro.persistentbackgroundlocation.BootBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Receives activity-transition broadcasts from ActivityRecognition. -->
+        <receiver
+            android:name="com.margelo.nitro.persistentbackgroundlocation.ActivityRecognitionReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.margelo.nitro.persistentbackgroundlocation.action.ACTIVITY_TRANSITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Lifecycle-only ContentProvider: captures the application Context (and
+             tracks the current Activity) before Application.onCreate, so the Nitro
+             HybridObject — which is handed no Context — can still operate. Unique
+             authority per host app; never serves data. -->
+        <provider
+            android:name="com.margelo.nitro.persistentbackgroundlocation.LocationContextProvider"
+            android:authorities="${applicationId}.persistentbackgroundlocation.init"
+            android:exported="false"
+            android:initOrder="1000" />
+
+    </application>
+
+</manifest>

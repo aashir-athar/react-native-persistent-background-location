@@ -1,0 +1,13 @@
+# Normalize all text to LF so a Linux CI checkout matches a Windows author's
+# working tree (matters for the committed nitrogen/generated output).
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.keystore binary
+*.jks binary
+*.tgz binary

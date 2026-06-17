@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "rn-pbl-example",
+    "slug": "rn-pbl-example",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "platforms": ["ios", "android"],
+    "ios": {
+      "bundleIdentifier": "com.aashirathar.rnpblexample",
+      "deploymentTarget": "15.1"
+    },
+    "android": {
+      "package": "com.aashirathar.rnpblexample",
+      "minSdkVersion": 24
+    },
+    "plugins": [
+      "expo-dev-client",
+      [
+        "react-native-persistent-background-location",
+        {
+          "locationWhenInUsePermission": "Allow rn-pbl-example to use your location while you use the app.",
+          "locationAlwaysAndWhenInUsePermission": "Allow rn-pbl-example to track your route in the background so tracking continues when the app is closed.",
+          "motionPermission": "Allow rn-pbl-example to detect motion to optimize battery use while tracking.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true,
+          "isActivityRecognitionEnabled": true
+        }
+      ]
+    ]
+  }
+}

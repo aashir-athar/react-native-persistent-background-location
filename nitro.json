@@ -1,0 +1,23 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": ["persistentbackgroundlocation"],
+  "ios": {
+    "iosModuleName": "PersistentBackgroundLocation"
+  },
+  "android": {
+    "androidNamespace": ["persistentbackgroundlocation"],
+    "androidCxxLibName": "PersistentBackgroundLocation"
+  },
+  "autolinking": {
+    "PersistentBackgroundLocation": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridPersistentBackgroundLocation"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridPersistentBackgroundLocation"
+      }
+    }
+  }
+}

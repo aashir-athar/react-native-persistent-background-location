@@ -1,0 +1,56 @@
+name: CI
+
+# Verifies the JS / Nitro-spec / config-plugin layer: codegen is up to date,
+# TypeScript typechecks, the package builds, and the published file set is valid.
+#
+# It does NOT run the native iOS (CocoaPods + CoreLocation) or Android (Gradle +
+# foreground service / fused location) compiles: those require the full app
+# toolchain and are validated on-device (see CONTRIBUTING.md).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Verify (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['20', '22']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Nitro codegen runs (specs are valid)
+        run: npm run codegen
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build (bob + config plugin)
+        run: npm run build
+
+      - name: Validate published file set
+        run: npm pack --dry-run

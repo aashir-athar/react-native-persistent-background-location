@@ -1,0 +1,78 @@
+// The Android Gradle plugin, Kotlin plugin, and com.facebook.react plugin are
+// provided by the consuming React Native app's root build.gradle classpath
+// (standard for autolinked RN libraries) — so this module declares no buildscript
+// classpath of its own, which would otherwise need brittle hard-pinned versions.
+def safeExtGet(prop, fallback) {
+  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+android {
+  namespace "com.margelo.nitro.persistentbackgroundlocation"
+
+  compileSdkVersion safeExtGet("compileSdkVersion", 36)
+  ndkVersion safeExtGet("ndkVersion", "27.1.12297006")
+
+  buildFeatures {
+    prefab true
+    buildConfig true
+  }
+
+  defaultConfig {
+    minSdkVersion safeExtGet("minSdkVersion", 24)
+    targetSdkVersion safeExtGet("targetSdkVersion", 36)
+
+    externalNativeBuild {
+      cmake {
+        cppFlags "-O2", "-frtti", "-fexceptions", "-Wall", "-std=c++20"
+        arguments "-DANDROID_STL=c++_shared"
+        abiFilters(*safeExtGet("reactNativeArchitectures", "armeabi-v7a,arm64-v8a,x86,x86_64").split(","))
+      }
+    }
+
+    consumerProguardFiles "consumer-rules.pro"
+  }
+
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+}
+
+// Adds the Nitrogen-generated Kotlin sources to this module.
+apply from: "../nitrogen/generated/android/PersistentBackgroundLocation+autolinking.gradle"
+
+repositories {
+  google()
+  mavenCentral()
+}
+
+dependencies {
+  // React Native (replaced with com.facebook.react:react-android by the RN plugin).
+  implementation "com.facebook.react:react-android"
+  // NitroModules core (HybridObject / Promise / ArrayBuffer) + its C++ prefab.
+  implementation project(":react-native-nitro-modules")
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('kotlinVersion', '2.0.21')}"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
+
+  // Fused location + activity recognition (battery-optimal path); a LocationManager
+  // fallback keeps the package functional on Play-less devices.
+  implementation "com.google.android.gms:play-services-location:21.3.0"
+
+  // ContextCompat / NotificationCompat / ServiceCompat / ActivityCompat.
+  implementation "androidx.core:core-ktx:1.13.1"
+}

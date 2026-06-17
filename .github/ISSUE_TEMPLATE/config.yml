@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question / discussion
+    url: https://github.com/aashir-athar/react-native-persistent-background-location/discussions
+    about: Ask usage questions and share ideas here.
+  - name: Security report
+    url: https://github.com/aashir-athar/react-native-persistent-background-location/security/advisories/new
+    about: Report a vulnerability privately (see SECURITY.md). Location data is sensitive PII.
