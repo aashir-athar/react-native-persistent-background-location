@@ -30,16 +30,11 @@ run the latest patch of your minor.
 pull requests, or discussions.** Public disclosure before a fix is available puts
 users' location data at risk.
 
-Use either private channel:
-
-1. **GitHub Security Advisories (preferred).** Go to the repository's
-   **Security → Advisories → Report a vulnerability** page
-   (<https://github.com/aashir-athar/react-native-persistent-background-location/security/advisories/new>).
-   This opens a private advisory only you and the maintainers can see, and lets us
-   collaborate on a fix and coordinate a CVE if warranted.
-2. **Email.** Write to **subscriptions@hybriddot.com** with subject
-   `SECURITY: react-native-persistent-background-location`. If you wish to
-   encrypt, ask in a first contact email and we'll arrange a key.
+Please report privately through **GitHub Security Advisories**: go to the
+repository's **Security → Advisories → Report a vulnerability** page
+(<https://github.com/aashir-athar/react-native-persistent-background-location/security/advisories/new>).
+This opens a private advisory only you and the maintainers can see, and lets us
+collaborate on a fix and coordinate a CVE if warranted.
 
 ### What to include
 
@@ -91,7 +86,7 @@ designed to keep that data under the **app developer's** control, not ours:
   **only** to the `syncUrl` you configure in `buffer.syncUrl`, using the HTTP
   method and headers you supply. The library has **no telemetry, no analytics,
   and no "phone home"** — it never sends location data (or anything else) to the
-  author, to HybridDot, or to any third party. If you set no `syncUrl`, nothing
+  author or to any third party. If you set no `syncUrl`, nothing
   leaves the device over the network.
 - **You own the transport and the backend.** A non-HTTPS `syncUrl` is **rejected
   by `start()`** unless you explicitly set `buffer.allowInsecureSync: true` (for

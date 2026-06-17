@@ -367,7 +367,7 @@ solve* them will be sent back for evidence on multiple OEM devices.
 
 Please do **not** open a public issue for a vulnerability. Location data is
 sensitive PII — follow the private process in [SECURITY.md](./SECURITY.md)
-(GitHub Security Advisories or email subscriptions@hybriddot.com).
+(GitHub Security Advisories).
 
 ---
 
