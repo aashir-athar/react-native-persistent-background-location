@@ -10,15 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1] - 2026-06-17
 
-Android build fix — the module now compiles under **Kotlin 2.1 (K2)** / Gradle 9
-(used by current Expo / React Native release builds). No public API or behavior
-changes.
+Android build fix — the module now **compiles cleanly** under **Kotlin 2.1.20
+(K2)** / Gradle 9, verified locally with `compileReleaseKotlin` against
+play-services-location 21.3.0. No public API or behavior changes.
 
 ### Fixed
 
-- **`ActivityRecognitionHelper`: explicit lambda parameter type** (`type: Int`).
-  The `ActivityTransition.Builder` chain failed K2 inference through the Java
-  platform type, cascading into an "Unresolved reference `setActivityTransitionType`".
+- **`ActivityRecognitionHelper`: corrected the activity-transition builder method
+  name.** The chain called `setActivityTransitionType(...)`, which does **not
+  exist** in `play-services-location` 21.x — the real method is
+  `setActivityTransition(Int)` (confirmed via `javap` + a green compile). The
+  accompanying "cannot infer type" error was only a cascade from this unresolved
+  call.
 - **`BackgroundLocationService.start` is now `internal`** — it is a `public`
   function taking the `internal` `LocationConfig`, which K2 rejects. All callers
   are in-module.

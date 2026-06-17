@@ -33,10 +33,12 @@ internal object ActivityRecognitionHelper {
   fun request(context: Context): Boolean {
     if (!isPermissionGranted(context)) return false
     return runCatching {
-      val transitions = TRACKED_ACTIVITIES.map { type: Int ->
+      val transitions = TRACKED_ACTIVITIES.map { type ->
         ActivityTransition.Builder()
           .setActivityType(type)
-          .setActivityTransitionType(ActivityTransition.ACTIVITY_TRANSITION_ENTER)
+          // The method is `setActivityTransition(Int)` in play-services-location
+          // 21.x — there is NO `setActivityTransitionType`.
+          .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_ENTER)
           .build()
       }
       val request = ActivityTransitionRequest(transitions)
