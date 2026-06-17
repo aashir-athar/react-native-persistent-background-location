@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-17
+
+Android build fix — the module now compiles under **Kotlin 2.1 (K2)** / Gradle 9
+(used by current Expo / React Native release builds). No public API or behavior
+changes.
+
+### Fixed
+
+- **`ActivityRecognitionHelper`: explicit lambda parameter type** (`type: Int`).
+  The `ActivityTransition.Builder` chain failed K2 inference through the Java
+  platform type, cascading into an "Unresolved reference `setActivityTransitionType`".
+- **`BackgroundLocationService.start` is now `internal`** — it is a `public`
+  function taking the `internal` `LocationConfig`, which K2 rejects. All callers
+  are in-module.
+- **`getCurrentPosition`: `suspendCancellableCoroutine` pinned to `<Location?>`**
+  (K2 inferred `Nothing?`, rejecting `cont.resume(location)`).
+
 ## [0.1.0] - 2026-06-17
 
 Initial public release — the Expo-free, **Nitro-powered** continuous background

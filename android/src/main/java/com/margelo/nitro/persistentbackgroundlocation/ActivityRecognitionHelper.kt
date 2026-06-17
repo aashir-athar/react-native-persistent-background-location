@@ -33,7 +33,7 @@ internal object ActivityRecognitionHelper {
   fun request(context: Context): Boolean {
     if (!isPermissionGranted(context)) return false
     return runCatching {
-      val transitions = TRACKED_ACTIVITIES.map { type ->
+      val transitions = TRACKED_ACTIVITIES.map { type: Int ->
         ActivityTransition.Builder()
           .setActivityType(type)
           .setActivityTransitionType(ActivityTransition.ACTIVITY_TRANSITION_ENTER)

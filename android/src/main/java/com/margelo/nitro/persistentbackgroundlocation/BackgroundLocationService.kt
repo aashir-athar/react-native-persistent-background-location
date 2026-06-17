@@ -392,7 +392,7 @@ class BackgroundLocationService : Service() {
     /** Whether the service process believes it is currently running. */
     fun isRunning(): Boolean = LocationEventBus.running
 
-    fun start(context: Context, config: LocationConfig) {
+    internal fun start(context: Context, config: LocationConfig) {
       val intent = Intent(context, BackgroundLocationService::class.java)
         .setAction(Constants.ACTION_START)
         .putExtra(EXTRA_CONFIG_JSON, config.toJson())

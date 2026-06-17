@@ -1,5 +1,6 @@
 package com.margelo.nitro.persistentbackgroundlocation
 
+import android.location.Location
 import android.os.Looper
 import android.util.Log
 import com.margelo.nitro.core.Promise
@@ -142,7 +143,7 @@ class HybridPersistentBackgroundLocation : HybridPersistentBackgroundLocationSpe
         )
       }
       val engine = LocationEngineFactory.create(ctx)
-      val location = suspendCancellableCoroutine { cont ->
+      val location = suspendCancellableCoroutine<Location?> { cont ->
         engine.getCurrentLocation(
           accuracy = options.accuracy,
           timeoutMs = options.timeoutMs.toLong(),

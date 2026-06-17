@@ -1,6 +1,6 @@
 {
   "name": "react-native-persistent-background-location",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bare React Native (Nitro) module for continuous background GPS that survives app-kill/swipe on Android (foreground service + boot receiver) and resumes after termination on iOS (significant-location-change). Native SQLite buffer + offline HTTP sync. New Architecture only. The Expo-free, Nitro-powered escape from the TransistorSoft Android paywall.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
